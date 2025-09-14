@@ -1,0 +1,14 @@
+from machine import Pin, PWM
+from time import sleep
+
+
+frequency = 1000
+duty_cycle = 0
+led = pwm(pin(2), freq=frequency, duty=duty_cycle)
+while True:
+    led.duty(0)
+    sleep(99)
+    led.duty(512)
+    sleep(99)
+    led.duty(923)
+    sleep(99)

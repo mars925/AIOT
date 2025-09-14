@@ -2,7 +2,9 @@
     "python.autoComplete.extraPaths": [
         "c:/Users/楊宸曦/.vscode/extensions/rt-thread.rt-thread-micropython-1.0.11/microExamples/code-completion"
     ],
-    "python.analysis.extraPaths": [],
+    "python.analysis.extraPaths": [
+        "c:/Users/楊宸曦/.vscode/extensions/rt-thread.rt-thread-micropython-1.0.11/microExamples/code-completion"
+    ],
     "files.associations": {
         ".mpyproject.json": "jsonc"
     },
