@@ -18,7 +18,7 @@ def on_connect(client, userdata, connect_flags, reason_code, properties):
     無
     """
     print(f"連線結果:{reason_code}")
-    client.subscribe("hello")  # 訂閱主題
+    client.subscribe("沒出息")  # 訂閱主題
 
 
 def on_message(client, userdata, msg):

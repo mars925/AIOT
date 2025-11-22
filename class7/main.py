@@ -20,7 +20,7 @@ if wi.connect("Singular_AI", "Singular#1234"):
 
 mq_server = "mqtt.singularinnovation-ai.com"
 # mq_server = "192.168.68.114"
-mqttClientId = "Ray"  # 大家要不一樣, 只使用英文, 不要使用中文或特殊符號
+mqttClientId = "mars"  # 大家要不一樣, 只使用英文, 不要使用中文或特殊符號
 mqtt_username = "singular"  # 這是登入伺服器的帳號, 大家都一樣
 mqtt_password = "Singular#1234"  # 這是登入伺服器的密碼, 大家都一樣
 mqClient0 = MQTTClient(
@@ -36,7 +36,7 @@ finally:
 
 
 mqClient0.set_callback(on_message)  # 設定接收訊息的時候要呼叫的函式
-mqClient0.subscribe("hello")  # 設定想訂閱的主題
+mqClient0.subscribe("fuck")  # 設定想訂閱的主題
 
 #########################主程式#########################
 
