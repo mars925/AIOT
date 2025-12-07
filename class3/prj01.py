@@ -12,9 +12,9 @@ duty_cycle = 0
 
 gpio = mcu.gpio()
 light_sensor = ADC(0)
-RED = pwm(gpio.D5, Pin.OUT)
-GREEN = pwm(gpio.D6, Pin.OUT)
-BLUE = pwm(gpio.D7, Pin.OUT)
+RED = Pin(gpio.D5, Pin.OUT)
+GREEN = Pin(gpio.D6, Pin.OUT)
+BLUE = Pin(gpio.D7, Pin.OUT)
 
 RED.value(0)
 GREEN.value(0)
