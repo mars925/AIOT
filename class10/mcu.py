@@ -190,17 +190,34 @@ class LED:
             self.BLUE.duty(BLUE_value)
 
 
-# def __init__(self,client_id,server,user,password,keepalive):
-# 創建MQTT客戶端並連接到服務器。
-# server (str):Server網址。
-# user (str):帳號。
-# password (str):密碼。
-# keepalive (int):保持連線時間。
-# def connect(self):
-# 連接到MQTT服務器。
-# def subscribe(self,topic:str,callback:function):
-# 訂閱主題並設置回調函數。
-# topic (str):主題名稱。
-# callback (function):接收訊息時調用的函數。
-# def check_msg(self):
-# 檢查是否有新訊息並調用回調函數。
+class MQTT:
+    def __init__(self, client_id, server, user, password, keepalive):
+        # 創建MQTT客戶端並連接到服務器。
+        # server (str):Server網址。
+        # user (str):帳號。
+        # password (str):密碼。
+        # keepalive (int):保持連線時間。
+        self.mqtt_client = MQTTClient(
+            client_id, server, user=user, password=password, keepalive=keepalive
+        )
+
+    def connect(self):
+        # 連接到MQTT服務器。
+        try:
+            self.mqtt_client.connect()
+        except:
+            sys.exit()
+        finally:
+            print("connected MQTT server")
+
+    def subscribe(self, topic: str, callback: function):
+        # 訂閱主題並設置回調函數。
+        # topic (str):主題名稱。
+        # callback (function):接收訊息時調用的函數。
+        self.mqtt_client.set_callback(callback)
+        self.mqtt_client.subscribe(topic)
+
+    def check_msg(self):
+        # 檢查是否有新訊息並調用回調函數。
+        self.mqtt_client.check_msg()
+        self.mqtt_client.ping()

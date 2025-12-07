@@ -26,20 +26,9 @@ mq_server = "mqtt.singularinnovation-ai.com"
 mqttClientId = "mars"  # 大家要不一樣, 只使用英文, 不要使用中文或特殊符號
 mqtt_username = "singular"  # 這是登入伺服器的帳號, 大家都一樣
 mqtt_password = "Singular#1234"  # 這是登入伺服器的密碼, 大家都一樣
-mqClient0 = MQTTClient(
-    mqttClientId, mq_server, user=mqtt_username, password=mqtt_password, keepalive=30
-)
-
-try:
-    mqClient0.connect()
-except:
-    sys.exit()
-finally:
-    print("connected MQTT server")
-
-
-mqClient0.set_callback(on_message)  # 設定接收訊息的時候要呼叫的函式
-mqClient0.subscribe("ori")  # 設定想訂閱的主題
+mqtt = mcu.MQTT(mqttClientId, mq_server, mqtt_username, mqtt_password, keepalive=60)
+mqtt.connect()
+mqtt.subscribe("ori", on_message)  # 訂閱主題, 有訊息時呼叫 on_message 函式
 gpio = mcu.gpio()
 LED = mcu.LED(gpio.D5, gpio.D6, gpio.D7, pwm=False)
 LED.LED_open(0, 0, 0)
@@ -49,8 +38,7 @@ m = ""
 
 while True:
     # 查看是否有訂閱主題發布的資料
-    mqClient0.check_msg()  # 等待已訂閱的主題發送資料
-    mqClient0.ping()  # 持續確認是否還保持連線
+    mqtt.check_msg()
     if m == "ON":
         LED.LED_open(1, 1, 1)
     elif m == "OFF":
