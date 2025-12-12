@@ -157,6 +157,12 @@ class LED:
              GREEN.duty(duty):設定綠色LED的PWM佔空比(僅當 pwm=True 時可用)。
              BLUE.duty(duty):設定藍色LED的PWM佔空比( 僅當 pwm=True 時可用)。
         """
+
+        # 因為LED還沒被創造出來所以先用self來儲存參數，等到創造出來後再用LED的屬性來儲存
+        # 這樣才能在LED物件當中的其他指令使用這些變數
+        # 例如: self.RED = Pin(r_pin, Pin.OUT)，這樣才能在其他方法使用self.RED來控制紅色LED
+        # __init__是初始化，也就是要求使用LED這個物件的時候要提供的傳入參數
+        # 例如: led = LED(r_pin=5, g_pin=6, b_pin=7, pwm=False)
         self.pwm = pwm
         if pwm == False:
             self.RED = Pin(r_pin, Pin.OUT)
