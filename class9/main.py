@@ -13,6 +13,8 @@ def on_message(topic, msg):
     topic = topic.decode("utf-8")
     print(f"my subscribe topic:{topic}, msg:{msg}")
     m = msg
+    show_msg = f"topic:{topic}, msg:{msg}"
+    print(show_msg)
 
 
 #########################宣告與設定#########################
