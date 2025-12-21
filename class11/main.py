@@ -16,107 +16,6 @@ def on_message(topic, msg):
     m = msg
 
 
-def oled_text_multiline(oled, text, x=0, y=0):
-    """在 SSD1306 上做簡單的換行顯示。
-    - text 支援手動換行字元 '\n'。
-    - 會根據顯示器寬度自動換行（每字元約 8px 寬）。
-    - 多出來的行會被截斷以避免超出顯示範圍。
-    """
-    if text is None:
-        return
-    text = str(text).replace("\r", "")
-    max_chars = oled.width // 8
-    max_lines = oled.height // 8
-    lines = []
-    for para in text.split("\n"):
-        # 以單字包裝，避免隨便在中間斷字
-        words = para.split(" ")
-        cur = ""
-        for w in words:
-            if cur == "":
-                candidate = w
-            else:
-                candidate = cur + " " + w
-            if len(candidate) <= max_chars:
-                cur = candidate
-            else:
-                if cur != "":
-                    lines.append(cur)
-                # 若單一字就超過限制，則硬切
-                while len(w) > max_chars:
-                    lines.append(w[:max_chars])
-                    w = w[max_chars:]
-                cur = w
-        if cur != "":
-            lines.append(cur)
-
-    # 顯示時若超過高度則截斷
-    for i, line in enumerate(lines[:max_lines]):
-        oled.text(line, x, y + i * 8)
-
-
-def _char_width(c):
-    # 粗略估算：ASCII 字元寬度 1，非 ASCII（如中文）視為 2
-    try:
-        return 1 if ord(c) < 128 else 2
-    except Exception:
-        return 1
-
-
-def oled_text_paginate(oled, text):
-    """將文字包裝為多頁，每頁不超過顯示可容納的行數與每行字元數。
-    回傳值：list of pages, 每頁為 list of lines (str)。
-    """
-    if text is None or text == "":
-        return [[""]]
-
-    text = str(text).replace("\r", "")
-    max_width = oled.width
-    max_chars = max_width // 8
-    max_lines = oled.height // 8
-
-    # 先將文字分為可顯示的行，支援手動換行
-    lines = []
-    for para in text.split("\n"):
-        cur = ""
-        cur_w = 0
-        for ch in para:
-            w = _char_width(ch)
-            if cur_w + w <= max_chars:
-                cur += ch
-                cur_w += w
-            else:
-                if cur != "":
-                    lines.append(cur)
-                # 若單字元就超過長度，強制分割
-                if w > max_chars:
-                    # 以簡單方式切割過長字串（極少發生）
-                    part = ch
-                    lines.append(part)
-                    cur = ""
-                    cur_w = 0
-                else:
-                    cur = ch
-                    cur_w = w
-        if cur != "":
-            lines.append(cur)
-
-    # 分頁
-    pages = []
-    for i in range(0, len(lines), max_lines):
-        pages.append(lines[i : i + max_lines])
-    if not pages:
-        pages = [[""]]
-    return pages
-
-
-def oled_show_page(oled, page_lines, x=0, y=0):
-    oled.fill(0)
-    for i, line in enumerate(page_lines):
-        oled.text(line, x, y + i * 8)
-    oled.show()
-
-
 #########################宣告與設定#########################
 wi = mcu.wifi()
 wi.setup(ap_active=False, sta_active=True)
@@ -149,21 +48,6 @@ last_page_time = time.time()
 
 while True:
     mqtt.check_msg()
-
-    # 當消息改變時重建分頁
-    if m != previous_m:
-        oled_pages = oled_text_paginate(oled, m)
-        oled_page_idx = 0
-        last_page_time = time.time()
-        previous_m = m
-
-    # 顯示當前頁面（若只有一頁即固定顯示）
-    oled_show_page(oled, oled_pages[oled_page_idx])
-
-    # 多頁自動翻頁
-    if len(oled_pages) > 1 and (time.time() - last_page_time) > page_display_time:
-        oled_page_idx = (oled_page_idx + 1) % len(oled_pages)
-        last_page_time = time.time()
 
     # LED 控制邏輯
     if m == "ON":
