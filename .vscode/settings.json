@@ -28,5 +28,8 @@
   ],
   "platformio-ide.autoOpenPlatformIOIniFile": false,
   "platformio-ide.disablePIOHomeStartup": true,
-  "singular-blockly.theme": "light"
+  "singular-blockly.theme": "light",
+  "editor.wordWrap": "off",
+  "editor.formatOnType": false,
+  "editor.formatOnSave": false
 }

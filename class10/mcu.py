@@ -169,7 +169,7 @@ class LED:
             self.GREEN = Pin(g_pin, Pin.OUT)
             self.BLUE = Pin(b_pin, Pin.OUT)
         else:
-            frequency = 1000  # 設定 PWM 頻率為 1000Hz
+            frequency = 1000  # 設定 PWM 頻率為 1000Hz，頻率=每秒亮的次數
             duty_cycle = 0
             self.RED = PWM(Pin(r_pin), freq=frequency, duty=duty_cycle)
             self.GREEN = PWM(Pin(g_pin), freq=frequency, duty=duty_cycle)

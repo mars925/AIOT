@@ -4,8 +4,8 @@ import network
 #########################函式與類別定義#########################
 
 #########################宣告與設定#########################
-wlan = network.WLAN(network.STA_IF)  # 建立 WLAN 物件，設定為站台模式
-ap = network.WLAN(network.AP_IF)  # 建立 WLAN 物件，設定為存取點模式
+wlan = network.WLAN(network.STA_IF)  # 建立 WLAN 物件，設定為接收模式
+ap = network.WLAN(network.AP_IF)  # 建立 WLAN 物件，設定為熱點模式
 ap.active(False)
 wlan.active(True)
 # 啟用存取點模式
