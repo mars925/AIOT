@@ -62,7 +62,9 @@ class gpio:
 
 
 class wifi:
-    def __init__(self, ssid=None, password=None):
+    def __init__(
+        self, ssid=None, password=None
+    ):  # init是初始化的意思，seif是自己的意思
         """
         初始化 WIFI 模組
         ssid: WIFI 名稱
@@ -125,7 +127,7 @@ class wifi:
 
         if not self.sta_active:
             print("STA 模式未啟用")
-            return False
+            return False  # return就是回傳右邊的資料並結束這個函式
 
         if ssid is None or password is None:
             print("WIFI 名稱或密碼未設定")
